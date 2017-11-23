@@ -8,7 +8,9 @@ use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
+use app\models\RegisterForm;
 use app\models\ContactForm;
+use app\models\Usuario;
 
 class SiteController extends Controller
 {
@@ -64,6 +66,20 @@ class SiteController extends Controller
         return $this->render('index');
     }
 
+    public function actionRegister()
+    {
+        $model = new RegisterForm();
+        if ($model->load(Yii::$app->request->post())/*&& $model->login()*/) {
+            $email = Yii::$app->request->post()["RegisterForm"]["email"];
+            if ($model->beforeRegister($emial)) {
+                # code...
+            }
+            return $this->goBack();
+        }
+        return $this->render('register', [
+            'model' => $model,
+        ]);   
+    }
     /**
      * Login action.
      *
