@@ -26,13 +26,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= $form->field($model, 'nombre')->textInput(['autofocus' => true]) ?>
 
-        <?= $form->field($model, 'apellido')->textInput() ?>
+        <?= $form->field($model, 'poblacion')->textInput() ?>
+
+        <?= $form->field($model, 'provincia')->textInput() ?>
 
         <?= $form->field($model, 'email')->textInput() ?>
 
-        <?= $form->field($model, 'pass')->passwordInput() ?>
-
-       
+        <?= $form->field($model, 'password')->passwordInput() ?>
 
         <div class="form-group">
             <div class="col-lg-offset-1 col-lg-11">

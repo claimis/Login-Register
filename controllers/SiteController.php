@@ -7,6 +7,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
+use yii\db\Query;
 use app\models\LoginForm;
 use app\models\RegisterForm;
 use app\models\ContactForm;
@@ -22,12 +23,21 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout'],
+                'only' => ['logout', 'index'],
                 'rules' => [
                     [
                         'actions' => ['logout'],
                         'allow' => true,
                         'roles' => ['@'],
+                    ],
+                     [
+                      'allow' => true,
+                        'actions' => ['index'],
+                       'roles' => ['@'],
+                       'matchCallback' => function ($rule, $action) {
+                          return !Yii::$app->user->isGuest;
+                      }
+
                     ],
                 ],
             ],
@@ -70,12 +80,16 @@ class SiteController extends Controller
     {
         $model = new RegisterForm();
         if ($model->load(Yii::$app->request->post())/*&& $model->login()*/) {
-            $email = Yii::$app->request->post()["RegisterForm"]["email"];
-            if ($model->beforeRegister($emial)) {
-                # code...
-            }
+            $datosForm = Yii::$app->request->post()["RegisterForm"];
+            $connection = new Query;
+            $datosForm['id_rol'] = 1;
+            $hashed = $datosForm['password'];
+            $datosForm['password'] = Yii::$app->security->generatePasswordHash($hashed);
+            $connection->createCommand()->insert('usuarios', $datosForm)->execute();
             return $this->goBack();
         }
+
+
         return $this->render('register', [
             'model' => $model,
         ]);   

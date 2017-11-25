@@ -15,11 +15,12 @@ use Yii;
  */
 class RegisterForm extends Model
 {
-    public $nick;
     public $email;
     public $apellido;
     public $nombre;
-    public $pass;
+    public $password;
+    public $poblacion;
+    public $provincia;
 
 
     /**
@@ -28,8 +29,8 @@ class RegisterForm extends Model
     public function rules()
     {
         return [
-            [['nick'], 'required'],
-            [['apellido', 'nombre','pass','nick','email'], 'string', 'max' => 255],
+            [['nombre','email','poblacion','provincia','password'], 'required'],
+            [[ 'nombre','password','nick','email','poblacion','provincia'], 'string', 'max' => 255],
         ];
     }
 
@@ -39,11 +40,13 @@ class RegisterForm extends Model
     public function attributeLabels()
     {
         return [
-            'nick' => 'Nick',
+        
             'nombre' => 'Nombre',
             'apellido' => 'Apellido',
             'email' => 'Email',
-            'pass' => 'Contraseña'
+            'password' => 'Contraseña',
+            'poblacion' => 'Población',
+            'provincia' => 'provincia'
         ];
     }
 
